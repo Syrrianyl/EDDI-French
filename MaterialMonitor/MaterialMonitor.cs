@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Eddi;
 using EddiDataDefinitions;
 using System.Windows.Controls;
@@ -42,7 +42,7 @@ namespace EddiMaterialMonitor
 
         public string MonitorDescription()
         {
-            return "Track the amount of materials and generate events when limits are reached.";
+            return "Suit la quantité de matériaux et génère des événements lorsque des limites choisies sont atteintes.";
         }
 
         public bool IsRequired()
@@ -191,7 +191,7 @@ namespace EddiMaterialMonitor
         /// </summary>
         private void incMaterial(string name, int amount)
         {
-            lock(inventoryLock)
+            lock (inventoryLock)
             {
                 Material material = Material.FromName(name);
                 MaterialAmount ma = inventory.Where(inv => inv.material == material.name).FirstOrDefault();
@@ -232,7 +232,7 @@ namespace EddiMaterialMonitor
         /// </summary>
         private void decMaterial(string name, int amount)
         {
-            lock(inventoryLock)
+            lock (inventoryLock)
             {
                 Material material = Material.FromName(name);
                 MaterialAmount ma = inventory.Where(inv => inv.material == material.name).FirstOrDefault();
@@ -274,7 +274,7 @@ namespace EddiMaterialMonitor
         /// </summary>
         private void setMaterial(string name, int amount)
         {
-            lock(inventoryLock)
+            lock (inventoryLock)
             {
                 Material material = Material.FromName(name);
                 MaterialAmount ma = inventory.Where(inv => inv.material == material.name).FirstOrDefault();
@@ -282,7 +282,7 @@ namespace EddiMaterialMonitor
                 {
                     // No information for the current material - create one and set it to amount
                     ma = new MaterialAmount(material, amount);
-                    Logging.Debug(ma.material + ": " + ma.amount);
+
                     inventory.Add(ma);
                 }
                 ma.amount = amount;
@@ -300,18 +300,20 @@ namespace EddiMaterialMonitor
 
         public void writeMaterials()
         {
-            lock(inventoryLock)
+            lock (inventoryLock)
             {
                 // Write material configuration with current inventory
                 MaterialMonitorConfiguration configuration = new MaterialMonitorConfiguration();
                 configuration.materials = inventory;
+                Logging.Info("MaterialMonitorConfiguration configuration : " + configuration);
+                Logging.Info("configuration.materials : " + inventory);
                 configuration.ToFile();
             }
         }
 
         private void readMaterials()
         {
-            lock(inventoryLock)
+            lock (inventoryLock)
             {
                 // Obtain current inventory from  configuration
                 MaterialMonitorConfiguration configuration = MaterialMonitorConfiguration.FromFile();
@@ -371,7 +373,7 @@ namespace EddiMaterialMonitor
             string data = Net.DownloadString("http://api.eddp.co/_materiallocations");
             if (data != null)
             {
-                Dictionary<string, Dictionary<string, object>> locations= JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(data);
+                Dictionary<string, Dictionary<string, object>> locations = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(data);
                 foreach (KeyValuePair<string, Dictionary<string, object>> kv in locations)
                 {
                     Material material = Material.MATERIALS.FirstOrDefault(m => m.name == kv.Key);
