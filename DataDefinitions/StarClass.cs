@@ -1,4 +1,4 @@
-﻿using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Distributions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,13 +48,13 @@ namespace EddiDataDefinitions
         // Percentages are obtained from a combination of https://en.wikipedia.org/wiki/Stellar_classification#Harvard_spectral_classification
         // and http://physics.stackexchange.com/questions/153150/what-does-this-stellar-mass-distribution-mean
 
-        public static readonly StarClass O = new StarClass("O", "O", "blue", 0.0000009M, new Normal(37.57, 27.50), new Normal(14.52, 29.67), new Normal(49698, 21338), new Normal(138, 262));
-        public static readonly StarClass B = new StarClass("B", "B", "blue-white", 0.039M, new Normal(5.81, 4.52), new Normal(3.36, 13.42), new Normal(16478, 6044), new Normal(237, 289));
-        public static readonly StarClass A = new StarClass("A", "A", "blue-white", 0.18M, new Normal(1.82, 2.78), new Normal(2.29, 16.63), new Normal(8208, 1179), new Normal(1809, 20152));
-        public static readonly StarClass F = new StarClass("F", "F", "white", 0.9M, new Normal(1.30, 0.20), new Normal(1.30, 3.86), new Normal(6743, 531), new Normal(2141, 1662));
-        public static readonly StarClass G = new StarClass("G", "G", "yellow-white", 2.28M, new Normal(0.94, 0.13), new Normal(1.01, 0.76), new Normal(5653, 7672), new Normal(4713, 3892));
-        public static readonly StarClass K = new StarClass("K", "K", "yellow-orange", 3.63M, new Normal(1.04, 45.55), new Normal(0.94, 2.11), new Normal(4452, 3284), new Normal(6291, 4144));
-        public static readonly StarClass M = new StarClass("M", "M", "orange-red", 22.935M, new Normal(0.66, 33.23), new Normal(1.58, 47.11), new Normal(2835, 481), new Normal(6609, 8645));
+        public static readonly StarClass O = new StarClass("O", "O", "Bleue", 0.0000009M, new Normal(37.57, 27.50), new Normal(14.52, 29.67), new Normal(49698, 21338), new Normal(138, 262));
+        public static readonly StarClass B = new StarClass("B", "B", "Bleue-Blanc", 0.039M, new Normal(5.81, 4.52), new Normal(3.36, 13.42), new Normal(16478, 6044), new Normal(237, 289));
+        public static readonly StarClass A = new StarClass("A", "A", "Blanc-Bleue", 0.18M, new Normal(1.82, 2.78), new Normal(2.29, 16.63), new Normal(8208, 1179), new Normal(1809, 20152));
+        public static readonly StarClass F = new StarClass("F", "F", "Blanc", 0.9M, new Normal(1.30, 0.20), new Normal(1.30, 3.86), new Normal(6743, 531), new Normal(2141, 1662));
+        public static readonly StarClass G = new StarClass("G", "G", "Blanc-Jaune", 2.28M, new Normal(0.94, 0.13), new Normal(1.01, 0.76), new Normal(5653, 7672), new Normal(4713, 3892));
+        public static readonly StarClass K = new StarClass("K", "K", "Jaune-Orangé", 3.63M, new Normal(1.04, 45.55), new Normal(0.94, 2.11), new Normal(4452, 3284), new Normal(6291, 4144));
+        public static readonly StarClass M = new StarClass("M", "M", "Rouge-Orangé", 22.935M, new Normal(0.66, 33.23), new Normal(1.58, 47.11), new Normal(2835, 481), new Normal(6609, 8645));
 
         /// <summary>
         /// Provide the cumulative probability that a star of this class will have a temp equal to or lower than that supplied
