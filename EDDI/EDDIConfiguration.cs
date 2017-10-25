@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,11 +21,15 @@ namespace Eddi
         public decimal Insurance { get; set; }
         [JsonProperty("plugins")]
         public IDictionary<string, bool> Plugins { get; set; }
-
+        [JsonProperty("PowerPlayObedience")]
+        public string PowerPlayObedience { get; set; }
         /// <summary>the current export target for the shipyard</summary>
         [JsonProperty("exporttarget")]
         public string exporttarget { get; set; }
+        [JsonProperty("Gender")]
+        public string Gender { get; set; }
 
+		
         [JsonIgnore]
         private string dataPath;
 
@@ -94,7 +98,8 @@ namespace Eddi
             {
                 filename = Constants.DATA_DIR + @"\eddi.json";
             }
-
+            if(PowerPlayObedience == null) { PowerPlayObedience = "None"; }
+            if (Gender == null) { Gender = "Male"; }
             string json = JsonConvert.SerializeObject(this, Formatting.Indented);
             Files.Write(filename, json);
         }
