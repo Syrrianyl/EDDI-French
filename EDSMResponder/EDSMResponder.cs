@@ -1,4 +1,4 @@
-﻿using Eddi;
+using Eddi;
 using EddiDataDefinitions;
 using EddiEvents;
 using EddiShipMonitor;
@@ -31,7 +31,7 @@ namespace EddiEdsmResponder
 
         public string ResponderDescription()
         {
-            return "Send details of your travels to EDSM.  EDSM is a third-party tool that provides information on the locations of star systems and keeps a log of the star systems you have visited.  It uses the data provided to crowd-source a map of the galaxy";
+            return "Envoyez les détails de vos voyages à EDSM. EDSM est un outil tiers qui fournit des informations sur l'emplacement des systèmes stellaires et conserve un journal des systèmes stellaires que vous avez visités. Il utilise les données fournies pour compléter la carte de la galaxie";
         }
 
         public EDSMResponder()
