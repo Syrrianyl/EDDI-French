@@ -1,6 +1,10 @@
-﻿using EddiCompanionAppService;
+using EddiCompanionAppService;
 using EddiDataDefinitions;
+using EddiDataProviderService;
+using EddiEvents;
 using EddiSpeechService;
+using EddiStarMapService;
+using Eddi;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,6 +20,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using Newtonsoft.Json;
 using Utilities;
 
 namespace Eddi
@@ -51,19 +56,23 @@ namespace Eddi
             //// Need to set up the correct information in the hero text depending on from where we were started
             if (fromVA)
             {
-                heroText.Text = "Any changes made here will take effect automatically in VoiceAttack.  You can close this window when you have finished.";
+                heroText.Text = "Toute modification effectuée ici prendra effet automatiquement dans VoiceAttack. Vous pouvez fermer cette fenêtre lorsque vous avez terminé.";
             }
             else
             {
-                heroText.Text = "If you are using VoiceAttack then please close this window before you start VoiceAttack for your changes to take effect.  You can access this window from VoiceAttack with the \"Configure EDDI\" command.";
+                heroText.Text = "Si vous utilisez VoiceAttack, fermez cette fenêtre avant de commencer VoiceAttack pour que vos modifications prennent effet. Vous pouvez accéder à cette fenêtre à partir de VoiceAttack avec la commande : \"Configure EDDI\" .";
             }
 
             EDDIConfiguration eddiConfiguration = EDDIConfiguration.FromFile();
             eddiHomeSystemText.Text = eddiConfiguration.HomeSystem;
             eddiHomeStationText.Text = eddiConfiguration.HomeStation;
             eddiInsuranceDecimal.Text = eddiConfiguration.Insurance.ToString(CultureInfo.InvariantCulture);
+			eddiPowerPlayObedience.Text = eddiConfiguration.PowerPlayObedience;
+            eddiGender.Text = eddiConfiguration.Gender;
             eddiVerboseLogging.IsChecked = eddiConfiguration.Debug;
             eddiBetaProgramme.IsChecked = eddiConfiguration.Beta;
+			//eddiisMale.IsChecked = eddiConfiguration.isMale;
+			//eddiisFemale.IsChecked = eddiConfiguration.isFemale;
 
             Logging.Verbose = eddiConfiguration.Debug;
 
@@ -76,11 +85,11 @@ namespace Eddi
                 profile = CompanionAppService.Instance.Profile();
                 if (profile == null)
                 {
-                    setUpCompanionAppComplete("Your connection to the Frontier API is good but experiencing temporary issues.  Your information should be available soon");
+                    setUpCompanionAppComplete("Votre connexion à l'API Frontier est bonne mais présente des problèmes temporaires. Vos informations devraient être bientôt disponibles");
                 }
                 else
                 {
-                    setUpCompanionAppComplete("Your connection to the Frontier API is operational, Commander " + profile.Cmdr.name);
+                    setUpCompanionAppComplete("Votre connexion à l'API Frontier est opérationnelle, Commandeur " + profile.Cmdr.name);
                 }
             }
             catch (Exception)
@@ -203,6 +212,19 @@ namespace Eddi
                 tabControl.Items.Add(item);
             }
 
+            
+
+            string Gender = string.IsNullOrWhiteSpace(eddiGender.Text) ? null : eddiGender.Text.Trim();
+			if (Gender == "Male")
+			{
+				eddiisMale.IsChecked = true;
+			}
+			else
+			{
+				eddiisFemale.IsChecked = true;
+			}
+
+
             EDDI.Instance.Start();
         }
 
@@ -212,13 +234,63 @@ namespace Eddi
             EDDIConfiguration eddiConfiguration = EDDIConfiguration.FromFile();
             eddiConfiguration.HomeSystem = string.IsNullOrWhiteSpace(eddiHomeSystemText.Text) ? null : eddiHomeSystemText.Text.Trim();
             eddiConfiguration.ToFile();
+            //EDDI.Instance.HomeStarSystem.name = eddiConfiguration.HomeSystem;
+            FindSystem(eddiConfiguration.HomeSystem);
+            eddiHomeStationText.Text = "";
         }
+		
 
         private void homeStationChanged(object sender, TextChangedEventArgs e)
         {
             EDDIConfiguration eddiConfiguration = EDDIConfiguration.FromFile();
             eddiConfiguration.HomeStation = string.IsNullOrWhiteSpace(eddiHomeStationText.Text) ? null : eddiHomeStationText.Text.Trim();
             eddiConfiguration.ToFile();
+            //EDDI.Instance.HomeStation.name = eddiConfiguration.HomeStation;
+            FindStation(eddiConfiguration.HomeStation);
+        }
+        private void StationChoice(object sender, SelectionChangedEventArgs e)
+        {
+
+
+        }
+        private void PowerPlayChanged(object sender, TextChangedEventArgs e)
+        {
+            EDDIConfiguration eddiConfiguration = EDDIConfiguration.FromFile();
+            eddiConfiguration.PowerPlayObedience = string.IsNullOrWhiteSpace(eddiPowerPlayObedience.Text) ? null : eddiPowerPlayObedience.Text.Trim();
+            eddiConfiguration.ToFile();
+            EDDI.Instance.Cmdr.powerplay = eddiConfiguration.PowerPlayObedience;
+        }
+        
+        private void eddipowerplaylist_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            // We take in the ComboBox
+            var comboBox = sender as ComboBox;
+
+            string newPowerPlay = comboBox.SelectedItem as string;
+            if (newPowerPlay == "A. Lavigny-Duval") { newPowerPlay = "Arissa Lavigny-Duval"; }
+            // And send in the TextBox
+            eddiPowerPlayObedience.Text = newPowerPlay;
+            // and when the TextBox change, it update the eddi.json in appdata
+            EDDI.Instance.Cmdr.powerplay = newPowerPlay;
+        }
+        
+        private void isMale_Checked(object sender, RoutedEventArgs e)
+        {
+            EDDIConfiguration eddiConfiguration = EDDIConfiguration.FromFile();
+            eddiConfiguration.Gender = "Male";
+            //eddiConfiguration.isMale = eddiisMale.IsChecked.Value;
+            eddiConfiguration.ToFile();
+            EDDI.Instance.Cmdr.gender = "Male";
+         }
+
+        private void isFemale_Checked(object sender, RoutedEventArgs e)
+        {
+            EDDIConfiguration eddiConfiguration = EDDIConfiguration.FromFile();
+            eddiConfiguration.Gender = "Female";
+            //eddiConfiguration.isFemale = eddiisFemale.IsChecked.Value;
+            eddiConfiguration.ToFile();
+            EDDI.Instance.Cmdr.gender = "Female";
         }
 
         private void insuranceChanged(object sender, TextChangedEventArgs e)
@@ -403,7 +475,7 @@ namespace Eddi
         {
             if (message == null)
             {
-                companionAppText.Text = "You do not have a connection to the Frontier API at this time.  Please enter your Elite: Dangerous email address and password below";
+                companionAppText.Text = "Vous n'êtes pas connecté à l'API Frontier en ce moment. Entrez votre adresse électronique et votre mot de passe pour Elite : Dangerous ci-dessous";
             }
             else
             {
@@ -426,7 +498,7 @@ namespace Eddi
         {
             if (message == null)
             {
-                companionAppText.Text = "Please enter the verification code that should have been sent to your email address";
+                companionAppText.Text = "Entrez le code de vérification vous devriez avoir reçu dans votre adresse e-mail";
             }
             else
             {
@@ -462,7 +534,7 @@ namespace Eddi
             companionAppCodeText.Text = "";
             companionAppCodeLabel.Visibility = Visibility.Hidden;
             companionAppCodeText.Visibility = Visibility.Hidden;
-            companionAppNextButton.Content = "Log out";
+            companionAppNextButton.Content = "Déconexion";
         }
 
         // Handle Text-to-speech tab
@@ -496,14 +568,14 @@ namespace Eddi
         {
             Ship testShip = ShipDefinitions.FromModel((string)ttsTestShipDropDown.SelectedValue);
             testShip.health = 100;
-            SpeechService.Instance.Say(testShip, "This is how I will sound in your " + ShipDefinitions.FromModel((string)ttsTestShipDropDown.SelectedValue).SpokenModel() + ".", false);
+            SpeechService.Instance.Say(testShip, "C'est ce que ça va donner dans votre " + ShipDefinitions.FromModel((string)ttsTestShipDropDown.SelectedValue).SpokenModel() + ".", false);
         }
 
         private void ttsTestDamagedVoiceButtonClicked(object sender, RoutedEventArgs e)
         {
             Ship testShip = ShipDefinitions.FromModel((string)ttsTestShipDropDown.SelectedValue);
             testShip.health = 20;
-            SpeechService.Instance.Say(testShip, "Severe damage to your " + ShipDefinitions.FromModel((string)ttsTestShipDropDown.SelectedValue).SpokenModel() + ".", false);
+            SpeechService.Instance.Say(testShip, "Dégats critiques dans votre " + ShipDefinitions.FromModel((string)ttsTestShipDropDown.SelectedValue).SpokenModel() + ".", false);
         }
 
         private void disableSsmlUpdated(object sender, RoutedEventArgs e)
@@ -658,5 +730,53 @@ namespace Eddi
         {
             Process.Start("https://github.com/EDCD/EDDI/wiki");
         }
+     //   public StarSystem HomeStarSystem { get; set; }
+     //   public Station HomeStation { get; set; }
+        private void FindSystem(String SystemName)
+        {
+            if (SystemName != null && SystemName.Trim().Length > 0)
+            {
+                EDDI.Instance.HomeStarSystem = StarSystemSqLiteRepository.Instance.GetOrCreateStarSystem(SystemName.Trim());
+                if (EDDI.Instance.HomeStarSystem != null)
+                {
+                    Logging.Debug("Home star system is " + EDDI.Instance.HomeStarSystem.name);
+                   /* if (configuration.HomeStation != null && configuration.HomeStation.Trim().Length > 0)
+                    {
+                        string homeStationName = configuration.HomeStation.Trim();
+                        foreach (Station station in HomeStarSystem.stations)
+                        {
+                            if (station.name == homeStationName)
+                            {
+                                HomeStation = station;
+                                Logging.Debug("Home station is " + HomeStation.name);
+                                break;
+
+                            }
+                        }
+                    }*/
+                }
+            }
+        }
+
+        private void FindStation(string StationName)
+        {
+            if (StationName != null && StationName.Trim().Length > 0)
+            {
+                string homeStationName = StationName.Trim();
+                foreach (Station station in EDDI.Instance.HomeStarSystem.stations)
+                {
+                    if (station.name == homeStationName)
+                    {
+                        EDDI.Instance.HomeStation = station;
+                        Logging.Debug("Home station is " + EDDI.Instance.HomeStation.name);
+                        break;
+
+                    }
+                }
+            }
+        }
+
     }
 }
+    
+
