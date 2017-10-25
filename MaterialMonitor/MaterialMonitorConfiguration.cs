@@ -1,4 +1,4 @@
-﻿using EddiDataDefinitions;
+using EddiDataDefinitions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -78,6 +78,7 @@ namespace EddiMaterialMonitor
             }
 
             string json = JsonConvert.SerializeObject(this, Formatting.Indented);
+            Logging.Debug("Nom du fichier de sauvegarde : " + filename);
             Files.Write(filename, json);
         }
     }
