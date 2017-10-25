@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Cottle.Values;
 using EddiSpeechService;
 using Utilities;
@@ -43,7 +43,7 @@ namespace EddiSpeechResponder
 
         public string ResponderDescription()
         {
-            return "Respond to events with pre-scripted responses using the information available.  Not all events have scripted responses by default; those that do not have the 'Test' button disabled.  The default personality can be copied, which allows existing scripts to be modified or disabled, and new scripts to be written, to suit your preferences.";
+            return "Réagir aux événements avec des réponses pré-scriptées en utilisant les informations disponibles. Tous les événements n'ont pas de réponses scriptées par défaut (pour ceux qui n'ont pas le bouton 'Test' désactivé). La personnalité par défaut peut être copiée, ce qui permet de modifier ou de désactiver les scripts existants et d'écrire de nouveaux scripts, selon vos préférences.";
         }
 
         public SpeechResponder()
