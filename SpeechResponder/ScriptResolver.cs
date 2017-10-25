@@ -1,4 +1,4 @@
-﻿using Cottle.Builtins;
+using Cottle.Builtins;
 using Cottle.Documents;
 using Cottle.Functions;
 using Cottle.Settings;
@@ -40,6 +40,11 @@ namespace EddiSpeechResponder
             return resolve(name, buildStore(vars), master);
         }
 
+        public string translate(string scriptname, string objectname, Dictionary<string, Cottle.Value> vars, bool master = true)
+        {
+            return translate(scriptname, objectname, buildStore(vars), master);
+        }
+
         public int priority(string name)
         {
             Script script;
@@ -66,6 +71,85 @@ namespace EddiSpeechResponder
 
             return resolveScript(script.Value, store, master);
         }
+
+        public string translate(string scriptname, string objectname, BuiltinStore store, bool master = true)
+        {
+            Script script;
+            string Translate_Sript = "Translate " + scriptname;
+            Logging.Debug("Resolving script : '" + Translate_Sript + "'");
+            scripts.TryGetValue(Translate_Sript, out script);
+            if (script == null || script.Value == null)
+            {
+                Logging.Debug("No script");
+                return null;
+            }
+            Logging.Debug("Found script");
+            if (script.Enabled == false)
+            {
+                Logging.Debug("Script disabled");
+                return null;
+            }
+
+            return resolveTranslation(script.Value, objectname, store, master);
+        }
+
+
+        /// <summary>
+        /// Resolve a tranlation script with an existing store
+        /// </summary>
+        public string resolveTranslation(string script, string objectname, BuiltinStore store, bool master = true)
+        {
+            try
+            {
+                // Before we start, we remove the context for master scripts.
+                // This means that scripts without context still work as expected
+                if (master)
+                {
+                    EDDI.Instance.State["eddi_context_last_subject"] = null;
+                    EDDI.Instance.State["eddi_context_last_action"] = null;
+                }
+
+                var document = new SimpleDocument("{set translate to '" + objectname + "'}" + script, setting);
+                var result = document.Render(store);
+                // Tidy up the output script
+                result = Regex.Replace(result, " +", " ").Replace(" ,", ",").Replace(" .", ".").Trim();
+                Logging.Debug("Turned script " + script + " in to speech " + result);
+                result = result.Trim() == "" ? null : result.Trim();
+
+                if (master && result != null)
+                {
+                    string stored = result;
+                    // Remove any leading pause
+                    if (stored.StartsWith("<break"))
+                    {
+                        string pattern = "^<break[^>]*>";
+                        string replacement = "";
+                        Regex rgx = new Regex(pattern);
+                        stored = rgx.Replace(stored, replacement);
+                    }
+
+                    EDDI.Instance.State["eddi_context_last_speech"] = stored;
+                    object lastSubject;
+                    if (EDDI.Instance.State.TryGetValue("eddi_context_last_subject", out lastSubject))
+                    {
+                        if (lastSubject != null)
+                        {
+                            string csLastSubject = ((string)lastSubject).ToLowerInvariant().Replace(" ", "_");
+                            EDDI.Instance.State["eddi_context_last_speech_" + csLastSubject] = stored;
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                Logging.Warn("Failed to resolve script: " + e.ToString());
+                return "There is a problem with the script: " + e.Message.Replace("'", "");
+            }
+        }
+
+
 
         /// <summary>
         /// Resolve a script with an existing store
@@ -122,6 +206,8 @@ namespace EddiSpeechResponder
             }
         }
 
+
+
         /// <summary>
         /// Build a store from a list of variables
         /// </summary>
@@ -137,6 +223,12 @@ namespace EddiSpeechResponder
             {
                 return new ScriptResolver(scripts).resolve(values[0].AsString, store, false);
             }, 1);
+
+            // Function to call Translate with a second script
+            store["Translate"] = new NativeFunction((values) =>
+            {
+                return new ScriptResolver(scripts).translate(values[0].AsString, values[1].AsString, store, false);
+            }, 2);
 
             // Translation functions
             store["P"] = new NativeFunction((values) =>
