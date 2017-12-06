@@ -247,6 +247,10 @@ namespace Eddi
             eddiHomeSystemLabel.Content = I18N.GetString("tab_cmd_system");
             eddiHomeStationLabel.Content = I18N.GetString("tab_cmd_station");
             eddiInsuranceLabel.Content = I18N.GetString("tab_cmd_insurance");
+            eddiGenderLabel.Content = I18N.GetString("tab_cmd_gender");
+            eddiGenderMale.Content = I18N.GetString("tab_cmd_gendermale");
+            eddiGenderFemale.Content = I18N.GetString("tab_cmd_genderfemale");
+            eddiGenderNeither.Content = I18N.GetString("tab_cmd_genderneither");
             frontierAPITab.Header = I18N.GetString("tab_frontier_header");
             frontierAPITabDesc.Text = I18N.GetString("tab_frontier_desc");
             companionAppResetText.Text = I18N.GetString("tab_frontier_reset_desc");

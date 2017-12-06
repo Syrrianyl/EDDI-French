@@ -537,6 +537,22 @@
       "en": "Insurance excess (%):",
       "fr": "Excès de l'assurance (%):"
     },
+    "tab_cmd_gender": {
+      "en": "Preferred gender for pronouns and titles:",
+      "fr": "Genre préféré pour les pronoms et les titres:"
+    },
+    "tab_cmd_gendermale": {
+      "en": "Male",
+      "fr": "Masculin"
+    },
+    "tab_cmd_genderfemale": {
+      "en": "Female",
+      "fr": "Féminin"
+    },
+    "tab_cmd_genderneither": {
+      "en": "Neither",
+      "fr": "Neutre"
+    },
     "tab_frontier_header": {
       "en": "Frontier API",
       "fr": "API Frontier"
