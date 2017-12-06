@@ -19,11 +19,13 @@ namespace EddiEvents
             VARIABLES.Add("faction", "The faction receiving the mission");
             VARIABLES.Add("communal", "True if the mission is a community goal");
             VARIABLES.Add("commodity", "The commodity involved in the mission (if applicable)");
+            VARIABLES.Add("LocalCommodity", "The translation of the commodity into the chosen language (if applicable)");
             VARIABLES.Add("amount", "The amount of the commodity involved in the mission (if applicable)");
             VARIABLES.Add("reward", "The monetary reward for completing the mission");
             VARIABLES.Add("commodityrewards", "The commodity rewards for completing the mission");
             VARIABLES.Add("donation", "The monetary donation when completing the mission");
             VARIABLES.Add("rewardCommodity", "The commodity reward name (if applicable)");
+            VARIABLES.Add("LocalReward", "The translation of the commodity reward name (if applicable)");
             VARIABLES.Add("rewardAmount", "The amount of the commodity reward (if applicable)");
         }
 
@@ -34,6 +36,18 @@ namespace EddiEvents
         public string faction { get; private set; }
 
         public string commodity { get; private set; }
+
+        public string LocalCommodity
+        {
+            get
+            {
+                if (commodity != null && commodity != "")
+                {
+                    return CommodityDefinitions.FromName(commodity).LocalName;
+                }
+                else return null;
+            }
+        }
 
         public int? amount { get; private set; }
 
@@ -46,6 +60,18 @@ namespace EddiEvents
         public long donation { get; private set; }
 
         public string rewardCommodity { get; private set; }
+
+        public string LocalReward
+        {
+            get
+            {
+                if (rewardCommodity != null && rewardCommodity != "")
+                {
+                    return CommodityDefinitions.FromName(rewardCommodity).LocalName;
+                }
+                else return null;
+            }
+        }
 
         public int rewardAmount { get; private set; }
 

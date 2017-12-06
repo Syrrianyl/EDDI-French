@@ -8,7 +8,7 @@ using Utilities;
 
 namespace EddiShipMonitor
 {
-    // Handle the Frontier API definition  for ships
+    // Handle the Frontier API definition for ships
     public class FrontierApi
     {
         private static List<string> HARDPOINT_SIZES = new List<string>() { "Huge", "Large", "Medium", "Small", "Tiny" };

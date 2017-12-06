@@ -13,6 +13,14 @@ namespace EddiDataDefinitions
 
         public string edname { get; private set; }
 
+        public string LocalName
+        {
+            get
+            {
+                return I18N.GetString(edname) ?? edname;
+            }
+        }
+
         public string name { get; private set; }
 
         public int rank { get; private set; }
@@ -50,6 +58,11 @@ namespace EddiDataDefinitions
             }
 
             FederationRating result = RATINGS.FirstOrDefault(v => v.name == from);
+            // test LocalName
+            if (result == null)
+            {
+                result = RATINGS.FirstOrDefault(v => v.LocalName == from);
+            }
             if (result == null)
             {
                 Logging.Report("Unknown Federation Rating name " + from);

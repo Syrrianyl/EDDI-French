@@ -14,6 +14,14 @@ namespace EddiDataDefinitions
         public string edname { get; private set; }
 
         public string name { get; private set; }
+		
+        public string LocalName
+        {
+            get
+            {
+                return I18N.GetString(edname) ?? edname;
+            }
+        }
 
         public int rank { get; private set; }
 
@@ -31,7 +39,8 @@ namespace EddiDataDefinitions
         public static readonly CombatRating Novice = new CombatRating("Novice", 2, "Novice");
         public static readonly CombatRating Competent = new CombatRating("Competent", 3, "Competent");
         public static readonly CombatRating Expert = new CombatRating("Expert", 4, "Expert");
-        public static readonly CombatRating Master = new CombatRating("Master", 5, "Master");
+		// EDName not used by the game, so used here to help localisation
+        public static readonly CombatRating Master = new CombatRating("CombatMaster", 5, "Master");
         public static readonly CombatRating Dangerous = new CombatRating("Dangerous", 6, "Dangerous");
         public static readonly CombatRating Deadly = new CombatRating("Deadly", 7, "Deadly");
         public static readonly CombatRating Elite = new CombatRating("Elite", 8, "Elite");
@@ -44,6 +53,11 @@ namespace EddiDataDefinitions
             }
 
             CombatRating result = RATINGS.FirstOrDefault(v => v.name == from);
+            // test LocalName
+            if (result == null)
+            {
+                result = RATINGS.FirstOrDefault(v => v.LocalName == from);
+            }
             if (result == null)
             {
                 Logging.Report("Unknown Combat Rating name " + from);
@@ -53,6 +67,7 @@ namespace EddiDataDefinitions
 
         public static CombatRating FromEDName(string from)
         {
+            if (from == "Master") { from = "CombatMaster"; }
             if (from == null)
             {
                 return null;

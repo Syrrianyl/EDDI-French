@@ -15,6 +15,14 @@ namespace EddiDataDefinitions
 
         public string edname { get; private set; }
 
+        public string LocalName
+        {
+            get
+            {
+                return I18N.GetString(edname) ?? edname;
+            }
+        }
+
         private DataScan(string edname, string name)
         {
             this.edname = edname;
@@ -37,6 +45,11 @@ namespace EddiDataDefinitions
             }
 
             DataScan result = DATASCANS.FirstOrDefault(v => v.name == from);
+            // test LocalName
+            if (result == null)
+            {
+                result = DATASCANS.FirstOrDefault(v => v.LocalName == from);
+            }
             if (result == null)
             {
                 Logging.Report("Unknown Data Link name " + from);

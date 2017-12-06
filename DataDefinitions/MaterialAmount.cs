@@ -10,6 +10,9 @@ namespace EddiDataDefinitions
         public string edname { get; private set; }
 
         [JsonIgnore]
+        public string LocalName { get; }
+
+        [JsonIgnore]
         private string _material;
         public string material
         {
@@ -29,7 +32,9 @@ namespace EddiDataDefinitions
 
         [JsonIgnore]
         private int _amount;
-        public int amount { get
+        public int amount
+        {
+            get
             {
                 return _amount;
             }
@@ -121,6 +126,7 @@ namespace EddiDataDefinitions
             this.edname = My_material.EDName;
             this.amount = amount;
             this.Category = My_material.category;
+            this.LocalName = My_material.LocalName;
         }
 
         public MaterialAmount(Material material, int amount, int? minimum, int? desired, int? maximum)
@@ -133,6 +139,7 @@ namespace EddiDataDefinitions
             this.desired = desired;
             this.maximum = maximum;
             this.Category = My_material.category;
+            this.LocalName = My_material.LocalName;
         }
 
         [JsonConstructor]
@@ -146,6 +153,7 @@ namespace EddiDataDefinitions
             this.desired = desired;
             this.maximum = maximum;
             this.Category = My_material.category;
+            this.LocalName = My_material.LocalName;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

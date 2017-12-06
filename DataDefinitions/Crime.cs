@@ -15,6 +15,14 @@ namespace EddiDataDefinitions
 
         public string edname { get; private set; }
 
+        public string LocalName
+        {
+            get
+            {
+                return I18N.GetString(edname) ?? edname;
+            }
+        }
+
         private Crime(string edname, string name)
         {
             this.edname = edname;
@@ -51,6 +59,11 @@ namespace EddiDataDefinitions
             }
 
             Crime result = CRIMES.FirstOrDefault(v => v.name == from);
+            // test LocalName
+            if (result == null)
+            {
+                result = CRIMES.FirstOrDefault(v => v.LocalName == from);
+            }
             if (result == null)
             {
                 Logging.Report("Unknown Crime name " + from);

@@ -15,12 +15,16 @@ namespace EddiEvents
         static CommodityEjectedEvent()
         {
             VARIABLES.Add("commodity", "The name of the commodity ejected");
+            VARIABLES.Add("LocalCommodity", "The translation of the commodity into the chosen language");
             VARIABLES.Add("amount", "The amount of cargo ejected");
             VARIABLES.Add("abandoned", "If the cargo has been abandoned");
         }
 
         [JsonProperty("commodity")]
         public string commodity { get; private set; }
+
+        [JsonProperty("LocalCommodity")]
+        public string LocalCommodity { get; }
 
         [JsonProperty("amount")]
         public int amount { get; private set; }
@@ -33,6 +37,7 @@ namespace EddiEvents
             this.commodity = (commodity == null ? "unknown commodity" : commodity.name);
             this.amount = amount;
             this.abandoned = abandoned;
+            this.LocalCommodity = (commodity == null ? "unknown commodity" : commodity.LocalName);
         }
     }
 }

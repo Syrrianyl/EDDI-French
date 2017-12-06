@@ -14,7 +14,8 @@ namespace EddiMaterialMonitor
 
         static MaterialThresholdEvent()
         {
-            VARIABLES.Add("material", "The material");
+            VARIABLES.Add("material", "The material (object)");
+            VARIABLES.Add("name", "The name of the material for this event");
             VARIABLES.Add("level", "The level that has been triggered (Minimum/Desired/Maximum)");
             VARIABLES.Add("limit", "The amount of the limit that has been passed");
             VARIABLES.Add("amount", "The current amount of the material");
@@ -22,6 +23,7 @@ namespace EddiMaterialMonitor
         }
 
         public Material material { get; private set; }
+        public string name { get; }
         public string level { get; private set; }
         public int limit { get; private set; }
         public int amount { get; private set; }
@@ -30,6 +32,7 @@ namespace EddiMaterialMonitor
         public MaterialThresholdEvent(DateTime timestamp, Material material, string level, int limit, int amount, string change) : base(timestamp, NAME)
         {
             this.material = material;
+            this.name = material.LocalName;
             this.level = level;
             this.limit = limit;
             this.amount = amount;

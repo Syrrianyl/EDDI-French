@@ -32,6 +32,11 @@ namespace EddiMaterialMonitor
             return "Material monitor";
         }
 
+        public string MonitorLocalName()
+        {
+            return I18N.GetString("material_monitor_name");
+        }
+
         public string MonitorVersion()
         {
             return "1.0.0";
@@ -39,7 +44,7 @@ namespace EddiMaterialMonitor
 
         public string MonitorDescription()
         {
-            return "Track the amount of materials and generate events when limits are reached.";
+            return I18N.GetString("material_monitor_desc");
         }
 
         public bool IsRequired()
@@ -396,7 +401,7 @@ namespace EddiMaterialMonitor
         }
 
         private void populateMaterialLocations()
-        {            
+        {
             string data = Net.DownloadString(Constants.EDDI_SERVER_URL + "materiallocations.json");
             if (data != null)
             {

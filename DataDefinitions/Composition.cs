@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Linq;
 using Utilities;
 
@@ -12,6 +13,15 @@ namespace EddiDataDefinitions
         private static readonly List<Composition> COMPOSITIONS = new List<Composition>();
 
         public string edname { get; private set; }
+
+        [JsonIgnore]
+        public string LocalName
+        {
+            get
+            {
+                return I18N.GetString(edname) ?? edname;
+            }
+        }
 
         public string name { get; private set; }
 
@@ -38,6 +48,11 @@ namespace EddiDataDefinitions
             }
 
             Composition result = COMPOSITIONS.FirstOrDefault(v => v.name == from);
+            // test LocalName
+            if (result == null)
+            {
+                result = COMPOSITIONS.FirstOrDefault(v => v.LocalName == from);
+            }
             if (result == null)
             {
                 Logging.Report("Unknown composition name " + from);
