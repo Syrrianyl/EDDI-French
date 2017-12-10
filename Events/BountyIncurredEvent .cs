@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace EddiEvents
 {
-    public class BountyIncurredEvent : Event
+    public class BountyIncurredEvent : Event //?
     {
         public const string NAME = "Bounty incurred";
         public const string DESCRIPTION = "Triggered when you incur a bounty";
