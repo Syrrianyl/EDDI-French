@@ -1,4 +1,4 @@
-# EDDI: The Elite Dangerous Data Interface
+﻿# EDDI: The Elite Dangerous Data Interface
 
 Version actuelle francisation de la: 2.4.0-b2(frenchy)
 

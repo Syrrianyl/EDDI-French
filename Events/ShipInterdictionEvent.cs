@@ -2,9 +2,6 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EddiEvents
 {
@@ -21,6 +18,7 @@ namespace EddiEvents
             VARIABLES.Add("iscommander", "If the player being interdicted is a commander (as opposed to an NPC)");
             VARIABLES.Add("interdictee", "The name of the commander being interdicted");
             VARIABLES.Add("rating", "The combat rating of the commander being interdicted");
+            VARIABLES.Add("LocalRating", "The translation of the combat rating into the chosen language");
             VARIABLES.Add("faction", "The faction of the commander being interdicted");
             VARIABLES.Add("power", "The power of the commander being interdicted");
         }
@@ -37,6 +35,9 @@ namespace EddiEvents
         [JsonProperty("rating")]
         public string rating { get; private set; }
 
+        [JsonProperty("LocalRating")]
+        public string LocalRating { get; }
+
         [JsonProperty("faction")]
         public string faction { get; private set; }
 
@@ -50,6 +51,7 @@ namespace EddiEvents
             this.iscommander = iscommander;
             this.interdictee = interdictee;
             this.rating = (rating == null ? null : rating.name);
+            this.LocalRating = (rating == null ? null : rating.LocalName);
             this.faction = faction;
             this.power = power;
         }

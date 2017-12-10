@@ -1,10 +1,6 @@
 ﻿using EddiDataDefinitions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EddiEvents
 {
@@ -23,6 +19,7 @@ namespace EddiEvents
             VARIABLES.Add("destinationsystem", "The destination system for the mission (if applicable)");
             VARIABLES.Add("destinationstation", "The destination station for the mission (if applicable)");
             VARIABLES.Add("commodity", "The commodity involved in the mission (if applicable)");
+            VARIABLES.Add("LocalCommodity", "The translation of the commodity into the chosen language (if applicable)");
             VARIABLES.Add("amount", "The amount of the commodity,  passengers or targets involved in the mission (if applicable)");
             VARIABLES.Add("passengertype", "The type of passengers in the mission (if applicable)");
             VARIABLES.Add("passengerswanted", "True if the passengers are wanted (if applicable)");
@@ -33,6 +30,7 @@ namespace EddiEvents
             VARIABLES.Add("expiry", "The expiry date of the mission");
             VARIABLES.Add("influence", "The increase in the faction's influence in the system gained when completing this mission (None/Low/Med/High)");
             VARIABLES.Add("reputation", "The increase in the commander's reputation with the faction gained when completing this mission (None/Low/Med/High)");
+            VARIABLES.Add("LocalName", "the human readable name on the mission (the ED Localised name)");
         }
 
         public long? missionid { get; private set; }
@@ -42,6 +40,18 @@ namespace EddiEvents
         public string faction { get; private set; }
 
         public string commodity { get; private set; }
+
+        public string LocalCommodity
+        {
+            get
+            {
+                if (commodity != null && commodity != "")
+                {
+                    return CommodityDefinitions.FromName(commodity).LocalName;
+                }
+                else return null;
+            }
+        }
 
         public int? amount { get; private set; }
 
@@ -67,10 +77,13 @@ namespace EddiEvents
 
         public string reputation { get; private set; }
 
-        public MissionAcceptedEvent(DateTime timestamp, long? missionid, string name, string faction, string destinationsystem, string destinationstation, Commodity commodity, int? amount, string passengertype, bool? passengerswanted, string target, string targettype, string targetfaction, bool communal, DateTime? expiry, string influence, string reputation) : base(timestamp, NAME)
+        public string LocalName { get; private set; }
+
+        public MissionAcceptedEvent(DateTime timestamp, long? missionid, string name, string LocalisedName, string faction, string destinationsystem, string destinationstation, Commodity commodity, int? amount, string passengertype, bool? passengerswanted, string target, string targettype, string targetfaction, bool communal, DateTime? expiry, string influence, string reputation) : base(timestamp, NAME)
         {
             this.missionid = missionid;
             this.name = name;
+            this.LocalName = LocalisedName;
             this.faction = faction;
             this.destinationsystem = destinationsystem;
             this.destinationstation = destinationstation;

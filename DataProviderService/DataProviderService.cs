@@ -4,10 +4,8 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using Utilities;
 
 namespace EddiDataProviderService
@@ -222,7 +220,8 @@ namespace EddiDataProviderService
                         Body.gravity = (decimal?)(double?)body["gravity"];
                         Body.eccentricity = (decimal?)(double?)body["orbital_eccentricity"];
                         Body.inclination = (decimal?)(double?)body["orbital_inclination"];
-                        Body.orbitalperiod = (decimal?)(double?)body["orbital_period"];
+                        decimal? orbitalPeriodSeconds = (decimal?)(double?)body["orbital_period"];
+                        Body.orbitalperiod = orbitalPeriodSeconds / (24.0M * 60.0M * 60.0M);
                         Body.radius = (long?)body["radius"];
                         Body.rotationalperiod = (decimal?)(double?)body["rotational_period"];
                         Body.semimajoraxis = (decimal?)(double?)body["semi_major_axis"];

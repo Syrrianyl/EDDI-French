@@ -2,9 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Utilities;
 
 namespace EddiEvents
 {
@@ -18,11 +16,15 @@ namespace EddiEvents
         static SynthesisedEvent()
         {
             VARIABLES.Add("synthesis", "The thing that has been synthesised");
+            VARIABLES.Add("LocalSynthesis", "The localised name of thing that has been synthesised");			
             VARIABLES.Add("materials", "Types and amounts of materials used in the synthesis");
         }
 
         [JsonProperty("synthesis")]
-        public string synthesis { get; private set; }
+        public string synthesis { get; private set; }	
+		
+        [JsonProperty("LocalSynthesis")]
+        public string LocalSynthesis { get; }
 
         [JsonProperty("materials")]
         public List<MaterialAmount> materials { get; private set; }
@@ -30,6 +32,7 @@ namespace EddiEvents
         public SynthesisedEvent(DateTime timestamp, string synthesis, List<MaterialAmount> materials) : base(timestamp, NAME)
         {
             this.synthesis = synthesis;
+            this.LocalSynthesis = I18N.GetString(synthesis);
             this.materials = materials;
         }
     }

@@ -3,14 +3,11 @@ using Eddi;
 using EddiDataDefinitions;
 using System.Windows.Controls;
 using System;
-using System.Text.RegularExpressions;
-using System.IO;
 using EddiEvents;
 using Utilities;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Collections.ObjectModel;
-using EddiCompanionAppService;
 using System.Collections.Concurrent;
 using Newtonsoft.Json.Linq;
 using System.Threading;
@@ -35,6 +32,11 @@ namespace EddiMaterialMonitor
             return "Material monitor";
         }
 
+        public string MonitorLocalName()
+        {
+            return I18N.GetString("material_monitor_name");
+        }
+
         public string MonitorVersion()
         {
             return "1.0.0";
@@ -42,7 +44,7 @@ namespace EddiMaterialMonitor
 
         public string MonitorDescription()
         {
-            return "Track the amount of materials and generate events when limits are reached.";
+            return I18N.GetString("material_monitor_desc");
         }
 
         public bool IsRequired()
@@ -383,8 +385,7 @@ namespace EddiMaterialMonitor
 
         private void populateMaterialBlueprints()
         {
-            // TODO: Transfer this function to a new server
-            string data = Net.DownloadString("http://api.eddp.co/_materialuses");
+            string data = Net.DownloadString(Constants.EDDI_SERVER_URL + "materialuses.json");
             if (data != null)
             {
                 Dictionary<string, List<Blueprint>> blueprints = JsonConvert.DeserializeObject<Dictionary<string, List<Blueprint>>>(data);
@@ -400,9 +401,8 @@ namespace EddiMaterialMonitor
         }
 
         private void populateMaterialLocations()
-        {
-            // TODO: Transfer this function to a new server
-            string data = Net.DownloadString("http://api.eddp.co/_materiallocations");
+        {            
+            string data = Net.DownloadString(Constants.EDDI_SERVER_URL + "materiallocations.json");
             if (data != null)
             {
                 Dictionary<string, Dictionary<string, object>> locations= JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(data);

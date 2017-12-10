@@ -21,10 +21,15 @@ namespace Eddi
         public decimal Insurance { get; set; }
         [JsonProperty("plugins")]
         public IDictionary<string, bool> Plugins { get; set; }
+        [JsonProperty("Gender")]
+        public string Gender { get; set; } = "Male";
 
         /// <summary>the current export target for the shipyard</summary>
         [JsonProperty("exporttarget")]
-        public string exporttarget { get; set; }
+        public string exporttarget { get; set; } = "Coriolis";
+
+        [JsonProperty("lang")]
+        public string Lang { get; set; }
 
         [JsonIgnore]
         private string dataPath;
@@ -36,6 +41,7 @@ namespace Eddi
             Insurance = 5;
             Plugins = new Dictionary<string, bool>();
             exporttarget = "Coriolis";
+            Gender = "Male";
         }
 
         /// <summary>
@@ -52,18 +58,19 @@ namespace Eddi
             EDDIConfiguration configuration = new EDDIConfiguration();
             if (File.Exists(filename))
             {
-                string data = Files.Read(filename);
-                if (data != null)
+                try
                 {
-                    try
+                    string data = Files.Read(filename);
+                    if (data != null)
                     {
                         configuration = JsonConvert.DeserializeObject<EDDIConfiguration>(data);
                     }
-                    catch (Exception ex)
-                    {
-                        Logging.Debug("Failed to read EDDI configuration", ex);
-                    }
                 }
+                catch (Exception ex)
+                {
+                    Logging.Debug("EDDI configuration file could not be read", ex);
+                }
+
             }
             if (configuration == null)
             {

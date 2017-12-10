@@ -1,13 +1,13 @@
 ﻿using System;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using Utilities;
 using System.ComponentModel;
 using System.Text;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace EddiDataDefinitions
 {
@@ -44,7 +44,12 @@ namespace EddiDataDefinitions
 
         /// <summary>the current tonnage cargo carried</summary>
         [JsonIgnore]
-        public int cargocarried { get; set; }
+        public int cargocarried {
+            get
+            {
+                return cargo.Sum(item => item.amount);
+            }
+        }
 
         /// <summary>the specific cargo carried</summary>
         [JsonIgnore]
@@ -256,6 +261,15 @@ namespace EddiDataDefinitions
         // The name in Elite: Dangerous' database
         [JsonIgnore]
         public string EDName { get; set; }
+
+        [JsonIgnore]
+        public string LocalName
+        {
+            get
+            {
+                return I18N.GetString(EDName) ?? EDName;
+            }
+        }
 
         public Ship()
         {

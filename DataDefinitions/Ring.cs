@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using Utilities;
 
 namespace EddiDataDefinitions
 {
@@ -16,6 +13,21 @@ namespace EddiDataDefinitions
 
         /// <summary>The composition of the ring</summary>
         public string composition { get; set; }
+
+        /// <summary>The composition of the ring translated in chosen language</summary>
+        [JsonIgnore]
+        public string LocalComposition
+        {
+            get
+            {
+                if (composition != null && composition != "")
+                {
+                    return Composition.FromName(composition).LocalName;
+                }
+                else return null;
+            }
+        }
+
 
         /// <summary>The mass of the ring, in megatonnes</summary>
         public decimal mass { get; set; }

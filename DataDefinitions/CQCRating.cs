@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Utilities;
 
 namespace EddiDataDefinitions
@@ -15,6 +12,14 @@ namespace EddiDataDefinitions
         private static readonly List<CQCRating> RATINGS = new List<CQCRating>();
 
         public string edname { get; private set; }
+
+        public string LocalName
+        {
+            get
+            {
+                return I18N.GetString(edname) ?? edname;
+            }
+        }
 
         public string name { get; private set; }
 
@@ -42,6 +47,11 @@ namespace EddiDataDefinitions
         public static CQCRating FromName(string from)
         {
             CQCRating result = RATINGS.FirstOrDefault(v => v.name == from);
+            // test LocalName
+            if (result == null)
+            {
+                result = RATINGS.FirstOrDefault(v => v.LocalName == from);
+            }
             if (result == null)
             {
                 Logging.Report("Unknown CQC Rating name " + from);
