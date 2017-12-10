@@ -20,8 +20,9 @@ namespace EddiEvents
         }
 
         public string commodity { get; private set; }
+
         public string LocalCommodity { get; }
-		
+
         public int amount { get; private set; }
         public long price { get; private set; }
 

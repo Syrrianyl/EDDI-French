@@ -24,7 +24,17 @@ namespace EddiEvents
         public string commodity { get; private set; }
 
         [JsonProperty("LocalCommodity")]
-        public string LocalCommodity { get; }
+        public string LocalCommodity
+        {
+            get
+            {
+                if (commodity != null && commodity != "")
+                {
+                    return CommodityDefinitions.FromName(commodity).LocalName;
+                }
+                else return null;
+            }
+        }
 
         [JsonProperty("amount")]
         public int amount { get; private set; }
@@ -37,7 +47,6 @@ namespace EddiEvents
             this.commodity = (commodity == null ? "unknown commodity" : commodity.name);
             this.amount = amount;
             this.abandoned = abandoned;
-            this.LocalCommodity = (commodity == null ? "unknown commodity" : commodity.LocalName);
         }
     }
 }

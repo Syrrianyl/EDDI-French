@@ -25,7 +25,7 @@ namespace EddiEvents
             VARIABLES.Add("commodityrewards", "The commodity rewards for completing the mission");
             VARIABLES.Add("donation", "The monetary donation when completing the mission");
             VARIABLES.Add("rewardCommodity", "The commodity reward name (if applicable)");
-            VARIABLES.Add("LocalReward", "The translation of the commodity reward name (if applicable)");
+            VARIABLES.Add("LocalReward", "The localised reward name (if applicable)");
             VARIABLES.Add("rewardAmount", "The amount of the commodity reward (if applicable)");
         }
 
@@ -37,17 +37,7 @@ namespace EddiEvents
 
         public string commodity { get; private set; }
 
-        public string LocalCommodity
-        {
-            get
-            {
-                if (commodity != null && commodity != "")
-                {
-                    return CommodityDefinitions.FromName(commodity).LocalName;
-                }
-                else return null;
-            }
-        }
+        public string LocalCommodity { get; }
 
         public int? amount { get; private set; }
 
@@ -60,18 +50,8 @@ namespace EddiEvents
         public long donation { get; private set; }
 
         public string rewardCommodity { get; private set; }
-
-        public string LocalReward
-        {
-            get
-            {
-                if (rewardCommodity != null && rewardCommodity != "")
-                {
-                    return CommodityDefinitions.FromName(rewardCommodity).LocalName;
-                }
-                else return null;
-            }
-        }
+		
+        public string LocalReward { get; private set; }
 
         public int rewardAmount { get; private set; }
 
@@ -81,6 +61,7 @@ namespace EddiEvents
             this.name = name;
             this.faction = faction;
             this.commodity = (commodity == null ? null : commodity.name);
+            this.LocalCommodity = (commodity == null ? null : commodity.LocalName);
             this.amount = amount;
             this.communal = communal;
             this.reward = reward;
@@ -89,6 +70,7 @@ namespace EddiEvents
             if (commodityrewards.Count > 0)
             {
                 this.rewardCommodity = commodityrewards[0].commodity;
+				this.LocalReward = commodityrewards[0].LocalCommodity;
                 this.rewardAmount = commodityrewards[0].amount;
             }
         }

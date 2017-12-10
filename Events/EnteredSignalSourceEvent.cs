@@ -8,7 +8,7 @@ namespace EddiEvents
     {
         public const string NAME = "Entered signal source";
         public const string DESCRIPTION = "Triggered when your ship enters a signal source";
-        public const string SAMPLE = "{\"timestamp\":\"2016-06-10T14:32:03Z\",\"event\":\"USSDrop\",\"USSType\":\"Disrupted wake echoes\",\"USSThreat\":0}";
+        public const string SAMPLE = "{\"timestamp\":\"2017-11-24T21:46:37Z\",\"event\":\"USSDrop\",\"USSType\":\"$USS_Type_ValuableSalvage;\",\"USSType_Localised\":\"Émissions encodées détectées\",\"USSThreat\":0}";
         public static Dictionary<string, string> VARIABLES = new Dictionary<string, string>();
 
         static EnteredSignalSourceEvent()

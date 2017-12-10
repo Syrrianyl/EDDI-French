@@ -36,13 +36,13 @@ namespace EddiEvents
         public CommoditySoldEvent(DateTime timestamp, Commodity commodity, int amount, long price, long profit, bool illegal, bool stolen, bool blackmarket) : base(timestamp, NAME)
         {
             this.commodity = (commodity == null ? "unknown commodity" : commodity.name);
+            this.LocalCommodity = (commodity == null ? "unknown commodity" : commodity.LocalName);
             this.amount = amount;
             this.price = price;
             this.profit = profit;
             this.illegal = illegal;
             this.stolen = stolen;
             this.blackmarket = blackmarket;
-            this.LocalCommodity = (commodity == null ? "unknown commodity" : commodity.LocalName);
         }
     }
 }

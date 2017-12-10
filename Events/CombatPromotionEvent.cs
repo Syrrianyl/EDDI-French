@@ -22,21 +22,12 @@ namespace EddiEvents
         public string rating{ get; private set; }
 
         [JsonProperty("LocalRating")]
-        public string LocalRating
-        {
-            get
-            {
-                if (rating != null && rating != "")
-                {
-                    return CombatRating.FromName(rating).LocalName;
-                }
-                else return null;
-            }
-        }
+        public string LocalRating { get; }
 
-        public CombatPromotionEvent(DateTime timestamp, CombatRating rating) : base(timestamp, NAME)
+    public CombatPromotionEvent(DateTime timestamp, CombatRating rating) : base(timestamp, NAME)
         {
             this.rating = rating.name;
+            this.LocalRating = rating.LocalName;
         }
     }
 }

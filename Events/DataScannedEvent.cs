@@ -22,21 +22,12 @@ namespace EddiEvents
         public string datalinktype { get; private set; }
 
         [JsonProperty("LocalDatalinkType")]
-        public string LocalDatalinkType
-        {
-            get
-            {
-                if (datalinktype != null && datalinktype != "")
-                {
-                    return DataScan.FromName(datalinktype).LocalName;
-                }
-                else return null;
-            }
-        }
+        public string LocalDatalinkType { get; }
 
         public DataScannedEvent(DateTime timestamp, DataScan datalinktype) : base(timestamp, NAME)
         {
             this.datalinktype = datalinktype.name;
+            this.LocalDatalinkType = datalinktype.LocalName;
         }
     }
 }

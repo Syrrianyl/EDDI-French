@@ -27,5 +27,5 @@ namespace Utilities
         public const double solAbsoluteMagnitude = 4.83;
         public const double solLuminosity = 3.846e26;
         public const double stefanBoltzmann = 5.670367e-8;
-    } 
+    }
 }

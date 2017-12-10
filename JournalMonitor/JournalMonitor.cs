@@ -1140,11 +1140,12 @@ namespace EddiJournalMonitor
                             break;
                         case "Interdicted":
                             {
-                                object val;
+                                //object val;
                                 bool submitted = getBool(data, "Submitted");
                                 string interdictor = getString(data, "Interdictor");
                                 bool iscommander = getBool(data, "IsPlayer");
-                                CombatRating rating = (CombatRating.FromRank(getInt(data, "CombatRank")));
+                                int RankRating = getInt(data, "CombatRank");
+                                CombatRating rating = (CombatRating.FromRank(RankRating));
                                 string faction = getFaction(data, "Faction");
                                 string power = getString(data, "Power");
 
@@ -1163,10 +1164,12 @@ namespace EddiJournalMonitor
                             break;
                         case "Interdiction":
                             {
+                                //object val;
                                 bool success = getBool(data, "Success");
                                 string interdictee = getString(data, "Interdicted");
                                 bool iscommander = getBool(data, "IsPlayer");
-                                CombatRating rating = CombatRating.FromRank(getInt(data, "CombatRank"));
+                                int RankRating = getInt(data, "CombatRank");
+                                CombatRating rating = CombatRating.FromRank(RankRating);
                                 string faction = getFaction(data, "Faction");
                                 string power = getString(data, "Power");
 
@@ -1176,8 +1179,10 @@ namespace EddiJournalMonitor
                             break;
                         case "PVPKill":
                             {
+                                //object val;
                                 string victim = getString(data, "Victim");
-                                CombatRating rating = CombatRating.FromRank(getInt(data, "CombatRank"));
+                                int RankRating = getInt(data, "CombatRank");
+                                CombatRating rating = CombatRating.FromRank(RankRating);
 
                                 events.Add(new KilledEvent(timestamp, victim, rating) { raw = line });
                                 handled = true;
@@ -1652,10 +1657,13 @@ namespace EddiJournalMonitor
                             }
                         case "CrewHire":
                             {
+                                //object val;
                                 string name = getString(data, "Name");
                                 string faction = getFaction(data, "Faction");
                                 long price = getLong(data, "Cost");
-                                CombatRating rating = CombatRating.FromRank(getInt(data, "CombatRank"));
+                                
+                                int RankRating = getInt(data, "CombatRank");
+                                CombatRating rating = CombatRating.FromRank(RankRating);
                                 events.Add(new CrewHiredEvent(timestamp, name, faction, price, rating) { raw = line });
                                 handled = true;
                                 break;
@@ -2200,6 +2208,7 @@ namespace EddiJournalMonitor
                                     if (module.mount != null)
                                     {
                                         // This is a weapon so provide a bit more information
+                                        
                                         if (module.mount == Module.ModuleMount.Fixed)
                                         {
                                             mount = "fixed";
@@ -2239,6 +2248,7 @@ namespace EddiJournalMonitor
                                     if (module.mount != null)
                                     {
                                         // This is a weapon so provide a bit more information
+                                        //string mount;
                                         if (module.mount == Module.ModuleMount.Fixed)
                                         {
                                             mount = "fixed";

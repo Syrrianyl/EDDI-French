@@ -23,7 +23,6 @@ namespace EddiShipMonitor
         }
 
         public string item { get; private set; }
-
         public long price { get; private set; }
 
         public string name { get; private set; } = null;

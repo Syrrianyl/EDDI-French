@@ -40,18 +40,7 @@ namespace EddiEvents
         public string rating { get; private set; }
 
         [JsonProperty("LocalRating")]
-        public string LocalRating
-        {
-            get
-            {
-                if (rating != null && rating != "")
-                {
-                    return CombatRating.FromName(rating).LocalName;
-                }
-                else return null;
-            }
-        }
-
+        public string LocalRating { get; }
         [JsonProperty("faction")]
         public string faction { get; private set; }
 
@@ -66,6 +55,7 @@ namespace EddiEvents
             this.iscommander = iscommander;
             this.interdictor = interdictor;
             this.rating = (rating == null ? null : rating.name);
+            this.LocalRating = (rating == null ? null : rating.LocalName);
             this.faction = faction;
             this.power = power;
         }

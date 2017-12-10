@@ -401,7 +401,7 @@ namespace EddiMaterialMonitor
         }
 
         private void populateMaterialLocations()
-        {
+        {            
             string data = Net.DownloadString(Constants.EDDI_SERVER_URL + "materiallocations.json");
             if (data != null)
             {

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using Utilities;
 
 namespace EddiDataDefinitions
 {
@@ -63,11 +64,11 @@ namespace EddiDataDefinitions
         {
             get
             {
-                if (security != null && security != "")
+                if (security != null && security != "" && SecurityLevel.FromName(security) != null)
                 {
                     return SecurityLevel.FromName(security).LocalName;
                 }
-                else return null;
+                else return I18N.GetString("$GAlAXY_MAP_INFO_state_anarchy;");
             }
         }
 

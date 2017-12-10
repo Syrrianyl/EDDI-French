@@ -70,7 +70,6 @@ namespace EddiDataDefinitions
             return result;
         }
 
-
         public static EmpireRating FromEDName(string from)
         {
             if (from == null)
