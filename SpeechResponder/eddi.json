@@ -11,6 +11,15 @@
       "name": "AFMU repairs",
       "description": "Triggered when repairing modules using the Auto Field Maintenance Unit (AFMU)"
     },
+    "Belt scanned": {
+      "enabled": true,
+      "priority": 3,
+      "responder": true,
+      "script": "{_ make your own script here}",
+      "default": false,
+      "name": "Belt scanned",
+      "description": "Triggered when you complete a scan of a belt"
+},
     "Blueprint make report": {
       "enabled": true,
       "priority": 3,
