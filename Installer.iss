@@ -73,6 +73,7 @@ Source: "EntityFramework.SqlServer.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Exceptionless.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Exceptionless.Wpf.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Help.md"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Help_fr.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "MathNet.Numerics.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "NetMQ.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -85,9 +86,11 @@ Source: "Utilities.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 Source: "eddi.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "eddi_fr.json"; DestDir: "{userappdata}\EDDI\personalities\"; Flags: ignoreversion
 
 Source: "ChangeLog.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Help.md"; DestDir: "{app}"; Flags: ignoreversion
+Source: "Help_fr.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Variables.md"; DestDir: "{app}"; Flags: ignoreversion
 
 Source: "EDDI.vap"; DestDir: "{app}"; Flags: ignoreversion
@@ -133,4 +136,4 @@ Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChang
 UseRelativePaths=True
 
 [Messages]
-SelectDirBrowseLabel=To continue, click Next.  If you have a custom VoiceAttack installation location, or would like to put the EDDI files in a different location, click Browse.
+SelectDirBrowseLabel=To continue, click Next. If you have a custom VoiceAttack installation location, or would like to put the EDDI files in a different location, click Browse.

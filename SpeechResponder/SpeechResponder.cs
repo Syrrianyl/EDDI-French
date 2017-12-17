@@ -153,11 +153,11 @@ namespace EddiSpeechResponder
                     Logging.Debug("beaconScanCount = " + beaconScanCount.ToString());
                     return;
                 }
-                if (theEvent is BeltScannedEvent)
+                /*if (theEvent is BeltScannedEvent)
                 {
-                    // We ignore belt clusters
+                    // We ignore belt clusters ????? but why to ignore ???? very beautyfull belt cluster
                     return;
-                }
+                }*/
             }
 
             // Disable speech from the community goal event for the time being.
